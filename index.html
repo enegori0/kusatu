@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Birthday Surprise</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:
+linear-gradient(
+135deg,
+#0f0f0f,
+#1a1a1a,
+#2b2b2b
+);
+font-family:'Noto Serif JP',serif;
+overflow:hidden;
+color:white;
+}
+
+.container{
+text-align:center;
+padding:30px;
+width:100%;
+max-width:500px;
+}
+
+.subtitle{
+letter-spacing:4px;
+font-size:12px;
+color:#d9b66d;
+margin-bottom:10px;
+}
+
+.title{
+font-size:38px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.message{
+font-size:15px;
+opacity:.8;
+line-height:1.8;
+margin-bottom:40px;
+}
+
+.roulette{
+height:80px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:38px;
+font-weight:bold;
+margin-bottom:40px;
+color:#fff;
+}
+
+button{
+border:none;
+background:#d9b66d;
+color:#111;
+padding:16px 38px;
+border-radius:999px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+.result{
+display:none;
+animation:fade 1s ease;
+}
+
+.result h2{
+font-size:60px;
+margin:20px 0;
+color:#f4d58d;
+}
+
+.result p{
+font-size:18px;
+line-height:2;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+background:white;
+top:-10px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(720deg);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="startArea">
+
+<div class="subtitle">
+HAPPY BIRTHDAY
+</div>
+
+<div class="title">
+特別な場所へ
+</div>
+
+<div class="message">
+あなたを連れて行きたい場所があります。<br>
+準備はいいですか？
+</div>
+
+<div class="roulette" id="roulette">
+？？？
+</div>
+
+<button onclick="startRoulette()">
+発表する
+</button>
+
+</div>
+
+<div class="result" id="result">
+
+<div class="subtitle">
+DESTINATION
+</div>
+
+<h2>草津温泉 ♨</h2>
+
+<p>
+1泊2日の温泉旅行へようこそ。<br>
+最高の誕生日を一緒に作ろう。
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+const places = [
+"箱根温泉",
+"熱海温泉",
+"鬼怒川温泉",
+"伊香保温泉",
+"別府温泉",
+"有馬温泉",
+"登別温泉",
+"草津温泉"
+];
+
+function startRoulette(){
+
+const btn=document.querySelector("button");
+btn.disabled=true;
+
+const roulette=document.getElementById("roulette");
+
+let count=0;
+
+const interval=setInterval(()=>{
+
+roulette.textContent=
+places[Math.floor(Math.random()*places.length)];
+
+count++;
+
+if(count>35){
+
+clearInterval(interval);
+
+roulette.textContent="草津温泉 ♨";
+
+setTimeout(()=>{
+
+document.getElementById("startArea").style.display="none";
+document.getElementById("result").style.display="block";
+
+confetti();
+
+},1200);
+
+}
+
+},100);
+
+}
+
+function confetti(){
+
+for(let i=0;i<120;i++){
+
+const c=document.createElement("div");
+
+c.className="confetti";
+
+c.style.left=Math.random()*100+"vw";
+
+c.style.animationDuration=
+(3+Math.random()*3)+"s";
+
+c.style.opacity=Math.random();
+
+document.body.appendChild(c);
+
+setTimeout(()=>{
+c.remove();
+},6000);
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
